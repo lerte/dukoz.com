@@ -1,19 +1,17 @@
-import Head from 'next/head'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import Link from 'next/link'
 
 export default function Home() {
   return (
-    <>
-      <Head>
-        <title>Dukoz.com - Affiliate</title>
-        <meta name="description" content="Affiliate" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header />
-      <main></main>
-      <Footer />
-    </>
+    <div className="flex h-screen items-center justify-center gap-4">
+      <Link className="border px-4 py-2 text-xl font-medium" href="/magic-link">
+        Login With Magic Link
+      </Link>
+      <Link className="border px-4 py-2 text-xl font-medium" href="/sign-in">
+        登录
+      </Link>
+      <Link className="border px-4 py-2 text-xl font-medium" href="/sign-up">
+        注册
+      </Link>
+    </div>
   )
 }

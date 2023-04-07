@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const fb_exchange_token = req.fb_exchange_token
+  const { fb_exchange_token } = req.query
   const { APP_ID, APP_SECRET } = process.env
   const response =
     await fetch(`https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&

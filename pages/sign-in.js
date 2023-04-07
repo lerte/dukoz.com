@@ -1,8 +1,9 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useState } from 'react'
+import Button from '@/components/Button'
+import { useRouter } from 'next/navigation'
 
 function SignInView() {
   const router = useRouter()
@@ -26,7 +27,7 @@ function SignInView() {
         const { errors } = await response.json()
         throw errors
       }
-      router.push('/profile')
+      router.push('/meta')
     } catch (err) {
       setLoading(false)
       setError(err.items)
@@ -56,13 +57,7 @@ function SignInView() {
           <Link className="text-indigo-600" href="/sign-up">
             Don't have an account? Register now
           </Link>
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:w-auto"
-            disabled={loading}
-          >
-            Login
-          </button>
+          <Button loading={loading}>Login</Button>
         </div>
       </form>
     </section>

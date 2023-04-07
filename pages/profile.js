@@ -1,9 +1,14 @@
+import Layout from '@/layouts/Sidebar'
 import { redirect } from 'next/navigation'
 import { altogicWithToken } from '@/libs/altogic'
 import ProfileClient from '@/components/Profile'
 
 export default function ProfileView({ user, sessionList, token }) {
-  return <ProfileClient user={user} sessionList={sessionList} token={token} />
+  return (
+    <Layout>
+      <ProfileClient user={user} sessionList={sessionList} token={token} />
+    </Layout>
+  )
 }
 
 export async function getServerSideProps({ req }) {

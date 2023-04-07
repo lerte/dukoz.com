@@ -1,4 +1,5 @@
 export default async function handler(req, res) {
+  // 生成长期用户访问口令
   const { fb_exchange_token } = req.query
   const { APP_ID, APP_SECRET } = process.env
   const response =

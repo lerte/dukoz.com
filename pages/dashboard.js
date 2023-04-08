@@ -1,6 +1,7 @@
 import Layout from '@/layouts/Sidebar'
 import { useState, useEffect } from 'react'
 import { altogicWithToken } from '@/libs/altogic'
+import FacebookPage from '@/components/FacebookPage'
 
 export default function Dashboard() {
   const [loginInfo, setLoginInfo] = useState({})
@@ -75,16 +76,9 @@ export default function Dashboard() {
         ''
       )}
 
-      <ul class="w-48 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
-        {accounts.map((account) => (
-          <li
-            key={account.id}
-            className="w-full border-b border-gray-200 px-4 py-2 dark:border-gray-600"
-          >
-            {account.name}
-          </li>
-        ))}
-      </ul>
+      {accounts.map((account) => (
+        <FacebookPage key={account.id} account={account} />
+      ))}
     </Layout>
   )
 }

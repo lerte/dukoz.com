@@ -2,7 +2,7 @@ import Layout from '@/layouts/Sidebar'
 import { useState, useEffect } from 'react'
 import { altogicWithToken } from '@/libs/altogic'
 
-export default function Meta() {
+export default function Dashboard() {
   const [loginInfo, setLoginInfo] = useState({})
   const [userInfo, setUserInfo] = useState({})
   const [accounts, setAccounts] = useState([])
@@ -74,7 +74,17 @@ export default function Meta() {
       ) : (
         ''
       )}
-      <div>{JSON.stringify(accounts)}</div>
+
+      <ul class="w-48 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+        {accounts.map((account) => (
+          <li
+            key={account.id}
+            className="w-full border-b border-gray-200 px-4 py-2 dark:border-gray-600"
+          >
+            {account.name}
+          </li>
+        ))}
+      </ul>
     </Layout>
   )
 }

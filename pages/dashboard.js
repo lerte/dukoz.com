@@ -1,5 +1,6 @@
 import Layout from '@/layouts/Sidebar'
 import { useState, useEffect } from 'react'
+import { altogicWithToken } from '@/libs/altogic'
 
 export default function Meta() {
   const [loginInfo, setLoginInfo] = useState({})
@@ -76,4 +77,41 @@ export default function Meta() {
       <div>{JSON.stringify(accounts)}</div>
     </Layout>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  try {
+    const session_token = req.cookies.session_token
+
+    const { user, errors } = await altogicWithToken(
+      session_token
+    ).auth.getUserFromDB()
+
+    if (errors) redirect('/sign-in')
+
+    const { sessions } = await altogicWithToken(
+      session_token
+    ).auth.getAllSessions()
+    const sessionList = sessions.map((session) =>
+      session.token === session_token
+        ? { ...session, isCurrent: true }
+        : session
+    )
+    return {
+      props: {
+        user,
+        sessionList,
+        token: session_token
+      }
+    }
+  } catch (e) {
+    console.error(e)
+    return {
+      props: {
+        user: {},
+        sessionList: [],
+        token: ''
+      }
+    }
+  }
 }

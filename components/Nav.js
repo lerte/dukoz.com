@@ -1,8 +1,10 @@
 import Link from 'next/link'
-import { useState } from 'react'
+// import altogic from '@/libs/altogic'
+import { useState, useEffect } from 'react'
 import { redirect } from 'next/navigation'
 
-export default function Nav({ session }) {
+export default function Nav() {
+  const [user, setUser] = useState(null)
   const [showMenu, setShowMenu] = useState(false)
 
   const signOut = async () => {
@@ -12,6 +14,14 @@ export default function Nav({ session }) {
       redirect('/sign-in')
     }
   }
+
+  // useEffect(() => {
+  //   altogic.auth.getUserFromDB().then(({ user }) => {
+  //     if (user) {
+  //       setUser(user)
+  //     }
+  //   })
+  // }, [])
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -44,7 +54,7 @@ export default function Nav({ session }) {
               <img src="/logo.svg" className="mr-3 h-8" alt="Dukoz Logo" />
             </Link>
           </div>
-          {session?.user && (
+          {user && (
             <div className="flex items-center">
               <div className="ml-3 flex items-center">
                 <div>
@@ -60,10 +70,10 @@ export default function Nav({ session }) {
                       <img
                         className="h-full w-full object-cover"
                         src={
-                          session.user?.profilePicture ||
+                          user?.profilePicture ||
                           `https://ui-avatars.com/api/?name=${user?.name}&background=0D8ABC&color=fff`
                         }
-                        alt={session.user?.name}
+                        alt={user?.name}
                       />
                     </picture>
                   </button>
@@ -72,7 +82,7 @@ export default function Nav({ session }) {
                   id="dropdown-user"
                   className={`${
                     showMenu
-                      ? 'translate absolute right-0 top-14 block'
+                      ? 'translate absolute right-4 top-14 block'
                       : 'hidden'
                   } z-50 my-4 list-none divide-y divide-gray-100 rounded bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700`}
                 >
@@ -81,19 +91,19 @@ export default function Nav({ session }) {
                       className="text-sm text-gray-900 dark:text-white"
                       role="none"
                     >
-                      {session.user?.name}
+                      {user?.name}
                     </p>
                     <p
                       className="truncate text-sm font-medium text-gray-900 dark:text-gray-300"
                       role="none"
                     >
-                      {session.user?.email}
+                      {user?.email}
                     </p>
                   </div>
                   <ul className="py-1" role="none">
                     <li>
                       <Link
-                        href="/"
+                        href="/dashboard"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
                       >
@@ -101,13 +111,13 @@ export default function Nav({ session }) {
                       </Link>
                     </li>
                     <li>
-                      <a
-                        href="#"
+                      <Link
+                        href="/profile"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
                       >
                         Settings
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <button

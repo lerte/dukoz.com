@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, redirect } from 'next/navigation'
 import Layout from '@/layouts/Stacked'
 import Button from '@/components/Button'
+import { altogicWithToken } from '@/libs/altogic'
 
 function SignInView() {
   const router = useRouter()
@@ -26,7 +27,7 @@ function SignInView() {
         const { errors } = await response.json()
         throw errors
       }
-      router.replace('/meta')
+      router.replace('/dashboard')
     } catch (err) {
       setLoading(false)
       setError(err.items)
@@ -66,6 +67,28 @@ function SignInView() {
       </div>
     </Layout>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  try {
+    const session_token = req.cookies.session_token
+    const { user, errors } = await altogicWithToken(
+      session_token
+    ).auth.getUserFromDB()
+    if (!errors) redirect('/dashboard')
+    return {
+      props: {
+        user
+      }
+    }
+  } catch (e) {
+    console.error(e)
+    return {
+      props: {
+        user: {}
+      }
+    }
+  }
 }
 
 export default SignInView

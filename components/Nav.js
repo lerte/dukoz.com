@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { redirect } from 'next/navigation'
 
-export default function Nav({ user, token }) {
+export default function Nav({ session }) {
   const [showMenu, setShowMenu] = useState(false)
 
   const signOut = async () => {
@@ -44,83 +44,85 @@ export default function Nav({ user, token }) {
               <img src="/logo.svg" className="mr-3 h-8" alt="Dukoz Logo" />
             </Link>
           </div>
-          <div className="flex items-center">
-            <div className="ml-3 flex items-center">
-              <div>
-                <button
-                  type="button"
-                  onClick={() => setShowMenu(!showMenu)}
-                  className="flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                  aria-expanded="false"
-                  data-dropdown-toggle="dropdown-user"
-                >
-                  <span className="sr-only">Open user menu</span>
-                  <picture className="h-8 w-8 overflow-hidden rounded-full border">
-                    <img
-                      className="h-full w-full object-cover"
-                      src={
-                        user?.profilePicture ||
-                        `https://ui-avatars.com/api/?name=${user?.name}&background=0D8ABC&color=fff`
-                      }
-                      alt={user?.name}
-                    />
-                  </picture>
-                </button>
-              </div>
-              <div
-                id="dropdown-user"
-                className={`${
-                  showMenu
-                    ? 'translate absolute right-0 top-14 block'
-                    : 'hidden'
-                } z-50 my-4 list-none divide-y divide-gray-100 rounded bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700`}
-              >
-                <div className="px-4 py-3" role="none">
-                  <p
-                    className="text-sm text-gray-900 dark:text-white"
-                    role="none"
+          {session?.user && (
+            <div className="flex items-center">
+              <div className="ml-3 flex items-center">
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setShowMenu(!showMenu)}
+                    className="flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    aria-expanded="false"
+                    data-dropdown-toggle="dropdown-user"
                   >
-                    Lerte Smith
-                  </p>
-                  <p
-                    className="truncate text-sm font-medium text-gray-900 dark:text-gray-300"
-                    role="none"
-                  >
-                    lerte@ducoz.com
-                  </p>
+                    <span className="sr-only">Open user menu</span>
+                    <picture className="h-8 w-8 overflow-hidden rounded-full border">
+                      <img
+                        className="h-full w-full object-cover"
+                        src={
+                          session.user?.profilePicture ||
+                          `https://ui-avatars.com/api/?name=${user?.name}&background=0D8ABC&color=fff`
+                        }
+                        alt={session.user?.name}
+                      />
+                    </picture>
+                  </button>
                 </div>
-                <ul className="py-1" role="none">
-                  <li>
-                    <Link
-                      href="/"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                      role="menuitem"
+                <div
+                  id="dropdown-user"
+                  className={`${
+                    showMenu
+                      ? 'translate absolute right-0 top-14 block'
+                      : 'hidden'
+                  } z-50 my-4 list-none divide-y divide-gray-100 rounded bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700`}
+                >
+                  <div className="px-4 py-3" role="none">
+                    <p
+                      className="text-sm text-gray-900 dark:text-white"
+                      role="none"
                     >
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                      role="menuitem"
+                      {session.user?.name}
+                    </p>
+                    <p
+                      className="truncate text-sm font-medium text-gray-900 dark:text-gray-300"
+                      role="none"
                     >
-                      Settings
-                    </a>
-                  </li>
-                  <li>
-                    <button
-                      onClick={signOut}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                      role="menuitem"
-                    >
-                      Sign out
-                    </button>
-                  </li>
-                </ul>
+                      {session.user?.email}
+                    </p>
+                  </div>
+                  <ul className="py-1" role="none">
+                    <li>
+                      <Link
+                        href="/"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                        role="menuitem"
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                        role="menuitem"
+                      >
+                        Settings
+                      </a>
+                    </li>
+                    <li>
+                      <button
+                        onClick={signOut}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                        role="menuitem"
+                      >
+                        Sign out
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </nav>

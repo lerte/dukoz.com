@@ -7,7 +7,7 @@ export default function FacebookPage({ account }) {
             className="h-full w-full object-cover"
             src={
               account.cover?.source ||
-              `https://ui-avatars.com/api/?name=${user?.name}&background=0D8ABC&color=fff`
+              `https://ui-avatars.com/api/?name=${account?.name}&background=0D8ABC&color=fff`
             }
             alt={account?.name}
           />

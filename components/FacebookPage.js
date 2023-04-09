@@ -1,6 +1,6 @@
 export default function FacebookPage({ account }) {
   return (
-    <div className="w-full max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+    <div className="flex flex-col rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <div className="flex flex-col items-center py-10">
         <picture className="h-24 w-24 overflow-hidden rounded-full border">
           <img

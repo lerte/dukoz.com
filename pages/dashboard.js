@@ -75,10 +75,11 @@ export default function Dashboard() {
       ) : (
         ''
       )}
-
-      {accounts.map((account) => (
-        <FacebookPage key={account.id} account={account} />
-      ))}
+      <section className="grid grid-cols-1 space-y-12 pt-9 md:grid-cols-2 md:gap-6 md:gap-x-6 md:space-y-0 lg:grid-cols-3">
+        {accounts.map((account) => (
+          <FacebookPage key={account.id} account={account} />
+        ))}
+      </section>
     </Layout>
   )
 }

@@ -2,7 +2,7 @@
 const nextConfig = {
   swcMinify: false,
   reactStrictMode: false,
-  publicRuntimeConfig: {
+  env: {
     ENV_URL: process.env.ENV_URL,
     CLIENT_KEY: process.env.CLIENT_KEY
   }

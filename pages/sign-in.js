@@ -1,11 +1,10 @@
 import Link from 'next/link'
 import { useState } from 'react'
-import { useRouter, redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Layout from '@/layouts/Stacked'
 import Button from '@/components/Button'
-import { altogicWithToken } from '@/libs/altogic'
 
-function SignInView() {
+export default function SignInView() {
   const router = useRouter()
 
   const [error, setError] = useState(null)
@@ -69,26 +68,4 @@ function SignInView() {
   )
 }
 
-export async function getServerSideProps({ req }) {
-  try {
-    const session_token = req.cookies.session_token
-    const { user, errors } = await altogicWithToken(
-      session_token
-    ).auth.getUserFromDB()
-    if (!errors) redirect('/dashboard')
-    return {
-      props: {
-        user
-      }
-    }
-  } catch (e) {
-    console.error(e)
-    return {
-      props: {
-        user: {}
-      }
-    }
-  }
-}
-
-export default SignInView
+export { getServerSideProps } from '@/pages/index'

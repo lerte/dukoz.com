@@ -1,12 +1,36 @@
 import Layout from '@/layouts/Sidebar'
 import { useState, useEffect } from 'react'
-import { altogicWithToken } from '@/libs/altogic'
 import FacebookPage from '@/components/FacebookPage'
 
 export default function Dashboard() {
   const [loginInfo, setLoginInfo] = useState({})
   const [userInfo, setUserInfo] = useState({})
-  const [accounts, setAccounts] = useState([])
+  const [accounts, setAccounts] = useState([
+    {
+      name: 'Crephy Cosmetics',
+      cover: {
+        cover_id: '454722196680070',
+        offset_x: 50,
+        offset_y: 52,
+        source:
+          'https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/301923488_454722190013404_6995452967497965842_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=1091cb&_nc_ohc=lt6_yM-vKBwAX-glyGg&_nc_ht=scontent-iad3-1.xx&edm=AGaHXAAEAAAA&oh=00_AfCRTe-Xlie68nToJj0vXDEPTbvtpdSU4_PxGBDllkPCTA&oe=6436946C',
+        id: '454722196680070'
+      },
+      fan_count: 241,
+      followers_count: 1446,
+      access_token:
+        'EAAHXVsdGH3MBAKRcr0FZCsl2eYDuhoa6bGTBvc6gvwVpKzSvmjWQprdfdFU7C7TZCBOQLyq14q5LdHZC9OK4PLWO3xYqWiDgxUsyWesrsckZBVkC5OTSSH74CkEGI5h92ZBDa6PZCsyQIIK8wrfX1Y4P3dZBLaVdAEfBP8cM74CcvliQ2wTo9uZC97FZAqNCTqEy8UCvtDA4ZAlVejWUhiTRI9y9YChq1dvSUZD',
+      id: '115401993623951'
+    },
+    {
+      name: 'Lerte Page',
+      fan_count: 0,
+      followers_count: 0,
+      access_token:
+        'EAAHXVsdGH3MBAM0GVDqK69KqIlJYhbgv3iGJATPyV1hlO8Ug5XdrSZBaC9Jjpb3zhtNVhIH366eh0L1ETT9BqmP84211ujfPfDSv8fhOI6e43cjtseEMYuDfcb1PYd04Lh31JCpU5lziicBJIz5T3yKF9wtimXQOYCqHZAodiJiVugB4Q8lsEZBsFDDL8fBU9y64F11ImZBj5oacAJwnj6Nu9uQi9CcZD',
+      id: '1535755520084851'
+    }
+  ])
 
   useEffect(() => {
     window.fbAsyncInit = function () {
@@ -82,41 +106,4 @@ export default function Dashboard() {
       </section>
     </Layout>
   )
-}
-
-export async function getServerSideProps({ req }) {
-  try {
-    const session_token = req.cookies.session_token
-
-    const { user, errors } = await altogicWithToken(
-      session_token
-    ).auth.getUserFromDB()
-
-    if (errors) redirect('/sign-in')
-
-    const { sessions } = await altogicWithToken(
-      session_token
-    ).auth.getAllSessions()
-    const sessionList = sessions.map((session) =>
-      session.token === session_token
-        ? { ...session, isCurrent: true }
-        : session
-    )
-    return {
-      props: {
-        user,
-        sessionList,
-        token: session_token
-      }
-    }
-  } catch (e) {
-    console.error(e)
-    return {
-      props: {
-        user: {},
-        sessionList: [],
-        token: ''
-      }
-    }
-  }
 }

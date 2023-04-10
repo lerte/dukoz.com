@@ -1,9 +1,6 @@
 import { createClient } from 'altogic'
-import getConfig from 'next/config'
-const { publicRuntimeConfig } = getConfig()
-const { ENV_URL, CLIENT_KEY } = publicRuntimeConfig
 
-const altogic = createClient(ENV_URL, CLIENT_KEY, {
+const altogic = createClient(process.env.ENV_URL, process.env.CLIENT_KEY, {
   signInRedirect: '/sign-in'
 })
 

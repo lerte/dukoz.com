@@ -1,27 +1,18 @@
 import Link from 'next/link'
-// import altogic from '@/libs/altogic'
-import { useState, useEffect } from 'react'
-import { redirect } from 'next/navigation'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 
-export default function Nav() {
-  const [user, setUser] = useState(null)
+export default function Nav({ user }) {
+  const router = useRouter()
   const [showMenu, setShowMenu] = useState(false)
 
   const signOut = async () => {
     const response = await fetch(`/api/auth/signOut`)
     const { data } = await response.json()
     if (data) {
-      redirect('/sign-in')
+      router.reload('/')
     }
   }
-
-  // useEffect(() => {
-  //   altogic.auth.getUserFromDB().then(({ user }) => {
-  //     if (user) {
-  //       setUser(user)
-  //     }
-  //   })
-  // }, [])
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -54,7 +45,7 @@ export default function Nav() {
               <img src="/logo.svg" className="mr-3 h-8" alt="Dukoz Logo" />
             </Link>
           </div>
-          {user && (
+          {user?.name && (
             <div className="flex items-center">
               <div className="ml-3 flex items-center">
                 <div>

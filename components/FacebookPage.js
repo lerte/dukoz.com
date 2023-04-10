@@ -1,4 +1,23 @@
-export default function FacebookPage({ account }) {
+import { useState, useEffect } from 'react'
+
+export default function FacebookPage({ account, userAccessToken }) {
+  const [messageCount, setMessageCount] = useState(0)
+
+  const getMessageCount = async () => {
+    // 获取主页消息数量
+    const params = new URLSearchParams({
+      pageId: account.id,
+      accessToken: account.access_token
+    })
+    const response = await fetch(`/api/meta/pageConversations?${params}`)
+    const { data } = await response.json()
+    setMessageCount(data[0]?.message_count)
+  }
+
+  useEffect(() => {
+    getMessageCount()
+  }, [])
+
   return (
     <div className="flex flex-col rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <div className="flex flex-col items-center py-10">
@@ -40,7 +59,7 @@ export default function FacebookPage({ account }) {
             Feed
           </button>
           <button className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
-            Message
+            Message {messageCount}
           </button>
         </div>
       </div>

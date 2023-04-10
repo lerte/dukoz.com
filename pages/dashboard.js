@@ -2,7 +2,7 @@ import Layout from '@/layouts/Sidebar'
 import { useState, useEffect } from 'react'
 import FacebookPage from '@/components/FacebookPage'
 
-export default function Dashboard() {
+export default function Dashboard({ user }) {
   const [loginInfo, setLoginInfo] = useState({})
   const [userInfo, setUserInfo] = useState({})
   const [accounts, setAccounts] = useState([])
@@ -30,17 +30,55 @@ export default function Dashboard() {
     })(document, 'script', 'facebook-jssdk')
   }, [])
 
+  const saveUserInfo = async ({ id, name }, { authResponse }) => {
+    const response = await fetch('/api/user/account', {
+      method: 'POST',
+      body: JSON.stringify({
+        _id: user._id,
+        userId: id,
+        userName: name,
+        userAccessToken: authResponse.accessToken
+      })
+    })
+    if (!response.ok) {
+      const { errors } = await response.json()
+      throw errors
+    } else {
+      //
+    }
+  }
+
   const login = () => {
     FB.login((response) => {
       setLoginInfo(response)
       if (response.authResponse) {
-        FB.api('/me', (response) => {
-          setUserInfo(response)
+        FB.api('/me', (res) => {
+          setUserInfo(res)
+          // 保存facebook用户的id和name到数据库
+          saveUserInfo(res, response)
         })
       } else {
         console.log('User cancelled login or did not fully authorize.')
       }
     })
+  }
+
+  const savePages = async (data) => {
+    const pages = data.map(({ id, name, access_token }) => ({
+      pageId: id,
+      pageName: name,
+      pageAccessToken: access_token
+    }))
+    const response = await fetch('/api/user/page', {
+      method: 'POST',
+      body: JSON.stringify({ _id: user.meta._id, pages })
+    })
+    if (!response.ok) {
+      const { errors } = await response.json()
+      throw errors
+    } else {
+      //
+    }
   }
 
   const getPages = async () => {
@@ -51,11 +89,12 @@ export default function Dashboard() {
     })
     const response = await fetch(`/api/meta/pageAccounts?${params}`)
     const { data } = await response.json()
+    savePages(data)
     setAccounts(data)
   }
 
   return (
-    <Layout>
+    <Layout user={user}>
       <button
         type="button"
         onClick={login}
@@ -76,9 +115,15 @@ export default function Dashboard() {
       )}
       <section className="grid grid-cols-1 space-y-12 pt-9 md:grid-cols-2 md:gap-6 md:gap-x-6 md:space-y-0 lg:grid-cols-3">
         {accounts.map((account) => (
-          <FacebookPage key={account.id} account={account} />
+          <FacebookPage
+            key={account.id}
+            account={account}
+            userAccessToken={loginInfo.authResponse.accessToken}
+          />
         ))}
       </section>
     </Layout>
   )
 }
+
+export { getServerSideProps } from '@/pages/index'

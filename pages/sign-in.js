@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
 import Layout from '@/layouts/Stacked'
 import Button from '@/components/Button'
 
-export default function SignInView() {
+export default function SignInView({ user }) {
   const router = useRouter()
 
   const [error, setError] = useState(null)
@@ -22,11 +22,11 @@ export default function SignInView() {
           password: password.value
         })
       })
+      const { errors } = await response.json()
       if (!response.ok) {
-        const { errors } = await response.json()
         throw errors
       }
-      router.replace('/dashboard')
+      router.reload('/dashboard')
     } catch (err) {
       setLoading(false)
       setError(err.items)
@@ -34,7 +34,7 @@ export default function SignInView() {
   }
 
   return (
-    <Layout>
+    <Layout user={user}>
       <div className="relative mx-auto flex h-full w-full max-w-screen-2xl items-center overflow-y-auto bg-gray-50 dark:bg-gray-900">
         <section className="mx-auto w-fit rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
           <form

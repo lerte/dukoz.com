@@ -11,10 +11,24 @@ export async function getServerSideProps({ res, req }) {
     const { user, errors } = await altogicWithToken(
       session_token
     ).auth.getUserFromDB()
-    if (!errors) {
-      res.setHeader('location', '/dashboard')
-      res.statusCode = 302
-      res.end()
+    if (user) {
+      delete user['review']
+      delete user['config']
+      delete user['checkmail']
+      delete user['facebook_ad_account']
+    }
+    if (req.url == '/dashboard') {
+      if (errors) {
+        res.setHeader('location', '/')
+        res.statusCode = 302
+        res.end()
+      }
+    } else {
+      if (!errors) {
+        res.setHeader('location', '/dashboard')
+        res.statusCode = 302
+        res.end()
+      }
     }
     return {
       props: {
@@ -22,7 +36,9 @@ export async function getServerSideProps({ res, req }) {
       }
     }
   } catch (e) {
-    console.error(e)
+    res.setHeader('location', '/')
+    res.statusCode = 302
+    res.end()
     return {
       props: {
         user: {}

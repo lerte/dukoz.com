@@ -13,14 +13,22 @@ export default function Aside() {
     >
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item href="/meta" icon={HiDashboard}>
-            Dashboard
+          <Sidebar.Item icon={HiDashboard}>
+            <Link href="/meta">Dashboard</Link>
           </Sidebar.Item>
           <Sidebar.Collapse icon={HiView} label="Meta">
-            <Sidebar.Item href="/permission">公共主页管理</Sidebar.Item>
-            <Sidebar.Item href="/comment">评论管控</Sidebar.Item>
-            <Sidebar.Item href="/keywords">关键词规则</Sidebar.Item>
-            <Sidebar.Item href="/message">主页消息中心</Sidebar.Item>
+            <Sidebar.Item>
+              <Link href="/permission">公共主页管理</Link>
+            </Sidebar.Item>
+            <Sidebar.Item>
+              <Link href="/comment">评论管控</Link>
+            </Sidebar.Item>
+            <Sidebar.Item>
+              <Link href="/keywords">关键词规则</Link>
+            </Sidebar.Item>
+            <Sidebar.Item>
+              <Link href="/message">主页消息中心</Link>
+            </Sidebar.Item>
           </Sidebar.Collapse>
           <Sidebar.Item href="/profile" icon={HiUser}>
             Account

@@ -16,20 +16,20 @@ export async function getServerSideProps({ res, req }) {
       delete user['config']
       delete user['checkmail']
       delete user['facebook_ad_account']
-    }
-    if (req.url == '/meta') {
-      if (errors) {
+
+      if (req.url == '/') {
         res.setHeader('location', '/')
         res.statusCode = 302
         res.end()
       }
     } else {
-      if (!errors) {
-        res.setHeader('location', '/meta')
+      if (req.url != '/') {
+        res.setHeader('location', '/')
         res.statusCode = 302
         res.end()
       }
     }
+
     return {
       props: {
         user

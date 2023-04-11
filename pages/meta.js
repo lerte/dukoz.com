@@ -5,7 +5,7 @@ import FacebookPage from '@/components/FacebookPage'
 export default function Meta({ user }) {
   const [loginInfo, setLoginInfo] = useState({})
   const [userInfo, setUserInfo] = useState({})
-  const [accounts, setAccounts] = useState([])
+  const [pages, setPages] = useState([])
 
   useEffect(() => {
     // if (user.meta) {
@@ -61,18 +61,24 @@ export default function Meta({ user }) {
   }
 
   const login = () => {
-    FB.login((response) => {
-      setLoginInfo(response)
-      if (response.authResponse) {
-        FB.api('/me', (res) => {
-          setUserInfo(res)
-          // 保存facebook用户的id和name到数据库
-          saveUserInfo(res, response)
-        })
-      } else {
-        console.log('User cancelled login or did not fully authorize.')
+    FB.login(
+      (response) => {
+        setLoginInfo(response)
+        if (response.authResponse) {
+          FB.api('/me', (res) => {
+            setUserInfo(res)
+            // 保存facebook用户的id和name到数据库
+            saveUserInfo(res, response)
+          })
+        } else {
+          console.log('User cancelled login or did not fully authorize.')
+        }
+      },
+      {
+        scope:
+          'email,ads_management,pages_show_list,pages_messaging,pages_read_engagement,pages_manage_engagement,pages_manage_metadata,public_profile,pages_read_user_content'
       }
-    })
+    )
   }
 
   const savePages = async (data) => {
@@ -99,10 +105,10 @@ export default function Meta({ user }) {
       userID: loginInfo.authResponse.userID,
       accessToken: loginInfo.authResponse.accessToken
     })
-    const response = await fetch(`/api/meta/pageAccounts?${params}`)
+    const response = await fetch(`/api/meta/pageShowList?${params}`)
     const { data } = await response.json()
     savePages(data)
-    setAccounts(data)
+    setPages(data)
   }
 
   return (
@@ -126,8 +132,8 @@ export default function Meta({ user }) {
         ''
       )}
       <section className="grid grid-cols-1 space-y-12 pt-9 md:grid-cols-2 md:gap-6 md:gap-x-6 md:space-y-0 lg:grid-cols-3">
-        {accounts.map((account) => (
-          <FacebookPage key={account.id} account={account} />
+        {pages.map((page) => (
+          <FacebookPage key={page.id} page={page} />
         ))}
       </section>
     </Layout>

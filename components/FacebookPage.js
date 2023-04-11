@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 
-export default function FacebookPage({ account }) {
+export default function FacebookPage({ page }) {
   const [messageCount, setMessageCount] = useState(0)
 
   const getMessageCount = async () => {
     // 获取主页消息数量
     const params = new URLSearchParams({
-      pageId: account.id,
-      accessToken: account.access_token
+      pageId: page.id,
+      accessToken: page.access_token
     })
     const response = await fetch(`/api/meta/pageConversations?${params}`)
     const { data } = await response.json()
@@ -25,14 +25,14 @@ export default function FacebookPage({ account }) {
           <img
             className="h-full w-full object-cover"
             src={
-              account.cover?.source ||
-              `https://ui-avatars.com/api/?name=${account?.name}&background=0D8ABC&color=fff`
+              page.cover?.source ||
+              `https://ui-avatars.com/api/?name=${page?.name}&background=0D8ABC&color=fff`
             }
-            alt={account?.name}
+            alt={page?.name}
           />
         </picture>
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-          {account.name}
+          {page.name}
         </h5>
         <div className="mt-4 flex space-x-3 md:mt-6">
           <button
@@ -41,7 +41,7 @@ export default function FacebookPage({ account }) {
           >
             赞
             <span className="ml-2 inline-flex h-4 w-8 items-center justify-center rounded-full bg-blue-200 text-xs font-semibold text-blue-800">
-              {account.fan_count}
+              {page.fan_count}
             </span>
           </button>
           <button
@@ -50,7 +50,7 @@ export default function FacebookPage({ account }) {
           >
             粉丝
             <span className="ml-2 inline-flex h-4 w-8 items-center justify-center rounded-full bg-blue-200 text-xs font-semibold text-blue-800">
-              {account.followers_count}
+              {page.followers_count}
             </span>
           </button>
         </div>

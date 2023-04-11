@@ -8,18 +8,6 @@ export default function Meta({ user }) {
   const [pages, setPages] = useState([])
 
   useEffect(() => {
-    // if (user.meta) {
-    //   setUserInfo({
-    //     id: user.meta.userId,
-    //     name: user.meta.userName
-    //   })
-    //   setLoginInfo({
-    //     authResponse: {
-    //       userID: user.meta.userId,
-    //       accessToken: user.meta.userAccessToken
-    //     }
-    //   })
-    // }
     window.fbAsyncInit = function () {
       FB.init({
         appId: '518242687131507',
@@ -41,6 +29,19 @@ export default function Meta({ user }) {
       fjs.parentNode.insertBefore(js, fjs)
     })(document, 'script', 'facebook-jssdk')
   }, [])
+
+  // if (user.meta) {
+  //   setUserInfo({
+  //     id: user.meta.userId,
+  //     name: user.meta.userName
+  //   })
+  //   setLoginInfo({
+  //     authResponse: {
+  //       userID: user.meta.userId,
+  //       accessToken: user.meta.userAccessToken
+  //     }
+  //   })
+  // }
 
   const saveUserInfo = async ({ id, name }, { authResponse }) => {
     const response = await fetch('/api/user/account', {
@@ -77,6 +78,7 @@ export default function Meta({ user }) {
       {
         scope:
           'email,ads_management,pages_show_list,pages_messaging,pages_read_engagement,pages_manage_engagement,pages_manage_metadata,public_profile,pages_read_user_content'
+        // scope: 'business_management'
       }
     )
   }

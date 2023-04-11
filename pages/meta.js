@@ -2,12 +2,24 @@ import Layout from '@/layouts/Sidebar'
 import { useState, useEffect } from 'react'
 import FacebookPage from '@/components/FacebookPage'
 
-export default function Dashboard({ user }) {
+export default function Meta({ user }) {
   const [loginInfo, setLoginInfo] = useState({})
   const [userInfo, setUserInfo] = useState({})
   const [accounts, setAccounts] = useState([])
 
   useEffect(() => {
+    // if (user.meta) {
+    //   setUserInfo({
+    //     id: user.meta.userId,
+    //     name: user.meta.userName
+    //   })
+    //   setLoginInfo({
+    //     authResponse: {
+    //       userID: user.meta.userId,
+    //       accessToken: user.meta.userAccessToken
+    //     }
+    //   })
+    // }
     window.fbAsyncInit = function () {
       FB.init({
         appId: '518242687131507',
@@ -115,11 +127,7 @@ export default function Dashboard({ user }) {
       )}
       <section className="grid grid-cols-1 space-y-12 pt-9 md:grid-cols-2 md:gap-6 md:gap-x-6 md:space-y-0 lg:grid-cols-3">
         {accounts.map((account) => (
-          <FacebookPage
-            key={account.id}
-            account={account}
-            userAccessToken={loginInfo.authResponse.accessToken}
-          />
+          <FacebookPage key={account.id} account={account} />
         ))}
       </section>
     </Layout>

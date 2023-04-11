@@ -11,7 +11,7 @@ export default function Aside() {
         <ul className="space-y-2 font-medium">
           <li>
             <Link
-              href="/dashboard"
+              href="/meta"
               className="flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
             >
               <svg
@@ -24,7 +24,7 @@ export default function Aside() {
                 <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
               </svg>
-              <span className="ml-3">Dashboard</span>
+              <span className="ml-3">Meta</span>
             </Link>
           </li>
           <li>

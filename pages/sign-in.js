@@ -26,7 +26,7 @@ export default function SignInView({ user }) {
       if (!response.ok) {
         throw errors
       }
-      router.reload('/dashboard')
+      router.reload('/meta')
     } catch (err) {
       setLoading(false)
       setError(err.items)

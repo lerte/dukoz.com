@@ -17,7 +17,7 @@ export async function getServerSideProps({ res, req }) {
       delete user['checkmail']
       delete user['facebook_ad_account']
     }
-    if (req.url == '/dashboard') {
+    if (req.url == '/meta') {
       if (errors) {
         res.setHeader('location', '/')
         res.statusCode = 302
@@ -25,7 +25,7 @@ export async function getServerSideProps({ res, req }) {
       }
     } else {
       if (!errors) {
-        res.setHeader('location', '/dashboard')
+        res.setHeader('location', '/meta')
         res.statusCode = 302
         res.end()
       }

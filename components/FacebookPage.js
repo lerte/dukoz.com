@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export default function FacebookPage({ account, userAccessToken }) {
+export default function FacebookPage({ account }) {
   const [messageCount, setMessageCount] = useState(0)
 
   const getMessageCount = async () => {

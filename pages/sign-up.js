@@ -31,7 +31,7 @@ export default function SignUpView() {
       }
 
       if (session) {
-        router.reload('/dashboard')
+        router.reload('/meta')
       } else {
         setSuccess(`We sent a verification link to ${email.value}`)
         setError(null)

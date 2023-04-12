@@ -25,8 +25,9 @@ export default function FacebookPage({ page }) {
           <img
             className="h-full w-full object-cover"
             src={
-              page.cover?.source ||
-              `https://ui-avatars.com/api/?name=${page?.name}&background=0D8ABC&color=fff`
+              page.cover?.source
+                ? `/api/proxy?url=${encodeURIComponent(page.cover.source)}`
+                : `https://ui-avatars.com/api/?name=${page?.name}&background=0D8ABC&color=fff`
             }
             alt={page?.name}
           />

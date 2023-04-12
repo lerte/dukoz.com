@@ -18,7 +18,7 @@ export async function getServerSideProps({ res, req }) {
       delete user['facebook_ad_account']
 
       if (req.url == '/') {
-        res.setHeader('location', '/')
+        res.setHeader('location', '/meta')
         res.statusCode = 302
         res.end()
       }

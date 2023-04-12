@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 
   const { data, errors } = await altogic.db
     .model('users.meta')
-    .filter(`_id == "${_id}"`)
+    .filter(`_parent == "${_id}"`)
     .updateFields([
       { field: 'userId', updateType: 'set', value: userId },
       { field: 'userName', updateType: 'set', value: userName },

@@ -4,7 +4,10 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head></Head>
+        <Head>
+          <meta name="author" content="Lerte Smith<lerte@qq.com>" />
+          <title>Meta</title>
+        </Head>
         <body>
           <Main />
           <NextScript />

@@ -30,6 +30,8 @@ export default function Message({ user }) {
     setConversations(data)
     if (data.length) {
       setCurrentConversation(data[0])
+    } else {
+      setCurrentConversation({})
     }
   }
   useEffect(() => {

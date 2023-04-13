@@ -1,14 +1,16 @@
-import App from 'next/app'
+import Head from 'next/head'
 import '@/styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
-
-MyApp.getInitialProps = async (appContext) => {
-  const appProps = await App.getInitialProps(appContext)
-
-  return { ...appProps }
+  return (
+    <>
+      <Head>
+        <meta name="author" content="Lerte Smith<lerte@qq.com>" />
+        <title>Meta</title>
+      </Head>
+      <Component {...pageProps} />
+    </>
+  )
 }
 
 export default MyApp

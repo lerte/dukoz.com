@@ -75,7 +75,7 @@ export default function Message({ user }) {
                   >
                     <img
                       className="mr-2 h-8 w-8 rounded-full"
-                      src={`/api/meta/picture?userID=${page.id}&accessToken=${currentPage.access_token}`}
+                      src={`/api/meta/picture?userID=${page.id}&accessToken=${page.access_token}`}
                     />
                     <div className="flex-1">
                       <div className="font-medium text-gray-800">

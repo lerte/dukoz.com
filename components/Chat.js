@@ -1,7 +1,10 @@
+import HiSmile from '@/components/HeroIcons/HiSmile'
+import HiThumb from '@/components/HeroIcons/HiThumb'
+import HiAttachment from '@/components/HeroIcons/HiAttachment'
 export default function Chat({ currentPage, currentConversation }) {
   return (
-    <div className="bg-gray-50">
-      <ul className="p-4">
+    <div className="flex h-full max-h-screen flex-col bg-gray-50">
+      <ul className="flex-1 p-4">
         {currentConversation.messages?.data.map((message) => (
           <li
             key={message.id}
@@ -22,6 +25,22 @@ export default function Chat({ currentPage, currentConversation }) {
           </li>
         ))}
       </ul>
+      <div className="m-4 flex items-center justify-center rounded-lg bg-white p-2">
+        <div className="mr-2 w-8">
+          <img
+            alt={currentPage.name}
+            src={`/api/meta/picture?userID=${currentPage.id}&accessToken=${currentPage.access_token}`}
+          />
+        </div>
+        <div className="flex-1">
+          <textarea className="block h-full max-h-20 w-full resize-none rounded-lg border-none bg-gray-200"></textarea>
+        </div>
+        <div className="flex items-center justify-end">
+          <HiAttachment />
+          <HiSmile />
+          <HiThumb />
+        </div>
+      </div>
     </div>
   )
 }

@@ -74,15 +74,8 @@ export default function Message({ user }) {
                     } mb-2 flex items-center bg-gray-200 py-2 px-4 hover:bg-gray-400`}
                   >
                     <img
-                      src={
-                        page.cover?.source
-                          ? `/api/proxy?url=${encodeURIComponent(
-                              page.cover.source
-                            )}`
-                          : `https://ui-avatars.com/api/?name=${page?.name}&background=0D8ABC&color=fff`
-                      }
-                      alt={page?.name}
                       className="mr-2 h-8 w-8 rounded-full"
+                      src={`/api/meta/picture?userID=${page.id}&accessToken=${currentPage.access_token}`}
                     />
                     <div className="flex-1">
                       <div className="font-medium text-gray-800">

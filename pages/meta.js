@@ -15,7 +15,7 @@ export default function Meta({ user }) {
       userID: userId,
       accessToken: userAccessToken
     })
-    const response = await fetch(`/api/meta/pageShowList?${params}`)
+    const response = await fetch(`/api/meta/accounts?${params}`)
     const { data } = await response.json()
     setPages(data)
   }

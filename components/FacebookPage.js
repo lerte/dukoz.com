@@ -9,7 +9,7 @@ export default function FacebookPage({ page }) {
       pageId: page.id,
       accessToken: page.access_token
     })
-    const response = await fetch(`/api/meta/pageConversations?${params}`)
+    const response = await fetch(`/api/meta/conversations?${params}`)
     const { data } = await response.json()
     setMessageCount(data[0]?.message_count)
   }

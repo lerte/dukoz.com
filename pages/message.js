@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 
 export default function Message({ user }) {
   const [pages, setPages] = useState([])
+  const [posts, setPosts] = useState([])
   const [currentPage, setCurrentPage] = useState([])
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState([])
@@ -15,18 +16,18 @@ export default function Message({ user }) {
       userID: userId,
       accessToken: userAccessToken
     })
-    const response = await fetch(`/api/meta/pageShowList?${params}`)
+    const response = await fetch(`/api/meta/accounts?${params}`)
     const { data } = await response.json()
     setPages(data)
     setCurrentPage(data[0])
   }
   const getConversations = async () => {
-    // 获取当前主页的messages
+    // 获取当前主页的conversations
     const params = new URLSearchParams({
       pageId: currentPage.id,
       accessToken: currentPage.access_token
     })
-    const response = await fetch(`/api/meta/pageConversations?${params}`)
+    const response = await fetch(`/api/meta/conversations?${params}`)
     const { data } = await response.json()
     setConversations(data)
     if (data.length) {
@@ -34,6 +35,16 @@ export default function Message({ user }) {
     } else {
       setCurrentConversation({})
     }
+  }
+  const getPosts = async () => {
+    // 获取当前主页的posts
+    const params = new URLSearchParams({
+      pageId: currentPage.id,
+      accessToken: currentPage.access_token
+    })
+    const response = await fetch(`/api/meta/posts?${params}`)
+    const { data } = await response.json()
+    setPosts(data)
   }
   useEffect(() => {
     if (user.meta) {
@@ -44,6 +55,7 @@ export default function Message({ user }) {
   useEffect(() => {
     if (currentPage.id) {
       getConversations()
+      getPosts()
     }
   }, [currentPage])
 

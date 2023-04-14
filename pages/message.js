@@ -101,16 +101,13 @@ export default function Message({ user }) {
                       className="mb-2 flex items-center bg-gray-200 py-2 px-4 hover:bg-gray-400"
                     >
                       <img
-                        alt={conversations.messages?.data[0]?.from?.name}
-                        src={`/api/meta/picture?userID=${conversations?.messages?.data[0].from.id}&accessToken=${currentPage.access_token}`}
+                        alt={conversations.senders?.data[0]?.name}
+                        src={`/api/meta/picture?userID=${conversations?.senders?.data[0].id}&accessToken=${currentPage.access_token}`}
                         className="mr-2 h-8 w-8 rounded-full"
                       />
                       <div className="flex-1">
                         <div className="font-medium text-gray-800">
-                          {conversations.messages?.data[0]?.from?.name}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          {conversations.messages?.data[0]?.message}
+                          {conversations.senders?.data[0]?.name}
                         </div>
                       </div>
                       <div className="text-sm text-gray-500">

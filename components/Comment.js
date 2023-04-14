@@ -13,7 +13,7 @@ export default function Comment({ currentPage, currentPost }) {
         <div className="text-sm leading-5 text-gray-500">
           <p>{currentPost.message}</p>
           <p>
-            {`0个心情.${currentPost.comments?.data.length}条评论.${dayjs(
+            {`0个心情.${currentPost.comments?.data.length || 0}条评论.${dayjs(
               currentPost.created_time
             ).format('YYYY-MM-DD HH:mm:ss')}`}
           </p>

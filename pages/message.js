@@ -1,13 +1,16 @@
+import dayjs from 'dayjs'
 import Layout from '@/layouts/Sidebar'
 import { useState, useEffect } from 'react'
 import { Card, Tabs } from 'flowbite-react'
 import Chat from '@/components/Chat'
-import dayjs from 'dayjs'
+import Comment from '@/components/Comment'
 
 export default function Message({ user }) {
   const [pages, setPages] = useState([])
   const [posts, setPosts] = useState([])
+  const [activeTab, setActiveTab] = useState(0)
   const [currentPage, setCurrentPage] = useState([])
+  const [currentPost, setCurrentPost] = useState([])
   const [conversations, setConversations] = useState([])
   const [currentConversation, setCurrentConversation] = useState([])
   const getPages = async ({ userId, userAccessToken }) => {
@@ -45,6 +48,11 @@ export default function Message({ user }) {
     const response = await fetch(`/api/meta/posts?${params}`)
     const { data } = await response.json()
     setPosts(data)
+    if (data.length) {
+      setCurrentPost(data[0])
+    } else {
+      setCurrentPost({})
+    }
   }
   useEffect(() => {
     if (user.meta) {
@@ -103,7 +111,11 @@ export default function Message({ user }) {
             </div>
           </div>
           <div className="flex flex-col rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
-            <Tabs.Group aria-label="Tabs with icons" style="underline">
+            <Tabs.Group
+              aria-label="Tabs with icons"
+              style="underline"
+              onActiveTabChange={(tab) => setActiveTab(tab)}
+            >
               <Tabs.Item active={true} title="Message">
                 <ul>
                   {conversations.map((conversations) => (
@@ -131,14 +143,45 @@ export default function Message({ user }) {
                   ))}
                 </ul>
               </Tabs.Item>
-              <Tabs.Item title="评论"></Tabs.Item>
+              <Tabs.Item title="评论">
+                <ul>
+                  {posts.map((post) => (
+                    <li
+                      key={post.id}
+                      onClick={() => setCurrentPost(post)}
+                      className="mb-2 flex items-center bg-gray-200 py-2 px-4 hover:bg-gray-400"
+                    >
+                      <img
+                        alt={currentPage.name}
+                        src={`/api/meta/picture?userID=${currentPage.id}&accessToken=${currentPage.access_token}`}
+                        className="mr-2 h-8 w-8 rounded-full"
+                      />
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-800">
+                          {post.message}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {dayjs(post.created_time).format(
+                            'YYYY-MM-DD HH:mm:ss'
+                          )}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </Tabs.Item>
             </Tabs.Group>
           </div>
           <div className="flex flex-col rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
-            <Chat
-              currentPage={currentPage}
-              currentConversation={currentConversation}
-            />
+            {activeTab == 0 && (
+              <Chat
+                currentPage={currentPage}
+                currentConversation={currentConversation}
+              />
+            )}
+            {activeTab == 1 && (
+              <Comment currentPage={currentPage} currentPost={currentPost} />
+            )}
           </div>
         </div>
       </Card>

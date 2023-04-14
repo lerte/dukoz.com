@@ -1,9 +1,32 @@
 import dayjs from 'dayjs'
+import { useState } from 'react'
 import HiSmile from '@/components/HeroIcons/HiSmile'
 import HiThumb from '@/components/HeroIcons/HiThumb'
 import HiAttachment from '@/components/HeroIcons/HiAttachment'
 
 export default function Chat({ currentPage, currentConversation }) {
+  const [text, setText] = useState('')
+  const handleChange = (event) => {
+    setText(event.target.value)
+  }
+
+  const handleKeyUp = async (e) => {
+    if (e.key == 'Enter') {
+      // 回复消息
+      const params = new URLSearchParams({
+        text: text.trim(),
+        id: '6223149661075983',
+        pageId: currentPage.id,
+        accessToken: currentPage.access_token
+      })
+      const response = await fetch(`/api/meta/messages?${params}`)
+      const data = await response.json()
+      if (data.message_id) {
+        setText('')
+      }
+    }
+  }
+
   return (
     <div className="flex h-full max-h-screen flex-col bg-gray-50">
       <ul className="flex-1 p-4">
@@ -37,7 +60,14 @@ export default function Chat({ currentPage, currentConversation }) {
           />
         </div>
         <div className="flex-1">
-          <textarea className="block h-full max-h-20 w-full resize-none rounded-lg border-none bg-gray-200"></textarea>
+          <textarea
+            value={text}
+            disabled={false}
+            onKeyUp={handleKeyUp}
+            onChange={handleChange}
+            placeholder="消息已经超过24小时，无法回复！"
+            className="block h-10 max-h-20 w-full cursor-not-allowed resize-none rounded-lg border-none bg-gray-200 text-xs"
+          />
         </div>
         <div className="flex items-center justify-end">
           <HiAttachment />

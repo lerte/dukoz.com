@@ -2,6 +2,7 @@ import Layout from '@/layouts/Sidebar'
 import { useState, useEffect } from 'react'
 import { Card, Tabs } from 'flowbite-react'
 import Chat from '@/components/Chat'
+import dayjs from 'dayjs'
 
 export default function Message({ user }) {
   const [pages, setPages] = useState([])
@@ -113,7 +114,9 @@ export default function Message({ user }) {
                         </div>
                       </div>
                       <div className="text-sm text-gray-500">
-                        {conversations.messages?.data[0]?.created_time}
+                        {dayjs(
+                          conversations.messages?.data[0]?.created_time
+                        ).format('YYYY-MM-DD HH:mm:ss')}
                       </div>
                     </li>
                   ))}

@@ -1,6 +1,8 @@
+import dayjs from 'dayjs'
 import HiSmile from '@/components/HeroIcons/HiSmile'
 import HiThumb from '@/components/HeroIcons/HiThumb'
 import HiAttachment from '@/components/HeroIcons/HiAttachment'
+
 export default function Chat({ currentPage, currentConversation }) {
   return (
     <div className="flex h-full max-h-screen flex-col bg-gray-50">
@@ -21,7 +23,9 @@ export default function Chat({ currentPage, currentConversation }) {
               </div>
               <div className="text-sm text-gray-600">{message.message}</div>
             </div>
-            <div className="text-sm text-gray-500">{message.created_time}</div>
+            <div className="text-sm text-gray-500">
+              {dayjs(message.created_time).format('YYYY-MM-DD HH:mm:ss')}
+            </div>
           </li>
         ))}
       </ul>

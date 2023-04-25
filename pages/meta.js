@@ -17,7 +17,7 @@ export default function Meta({ user }) {
     })
     const response = await fetch(`/api/meta/accounts?${params}`)
     const { data } = await response.json()
-    setPages(data)
+    setPages(data || [])
   }
 
   useEffect(() => {

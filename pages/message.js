@@ -21,8 +21,10 @@ export default function Message({ user }) {
     })
     const response = await fetch(`/api/meta/accounts?${params}`)
     const { data } = await response.json()
-    setPages(data)
-    setCurrentPage(data[0])
+    if(data){
+      setPages(data)
+      setCurrentPage(data[0])
+    }
   }
   const getConversations = async () => {
     // 获取当前主页的conversations
@@ -158,7 +160,7 @@ export default function Message({ user }) {
                       />
                       <div className="flex-1">
                         <div className="font-medium text-gray-800">
-                          {post.message}
+                          {post.message.slice(0, 100)}
                         </div>
                         <div className="text-sm text-gray-500">
                           {dayjs(post.created_time).format(

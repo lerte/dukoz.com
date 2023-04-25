@@ -21,7 +21,7 @@ export default function Message({ user }) {
     })
     const response = await fetch(`/api/meta/accounts?${params}`)
     const { data } = await response.json()
-    if(data){
+    if (data) {
       setPages(data)
       setCurrentPage(data[0])
     }
@@ -126,10 +126,15 @@ export default function Message({ user }) {
                       onClick={() => setCurrentConversation(conversations)}
                       className="mb-2 flex items-center bg-gray-200 py-2 px-4 hover:bg-gray-400"
                     >
-                      <img
+                      {/* <img
                         alt={conversations.senders?.data[0]?.name}
                         src={`/api/meta/picture?userID=${conversations?.senders?.data[0].id}&accessToken=${currentPage.access_token}`}
                         className="mr-2 h-8 w-8 rounded-full"
+                      /> */}
+                      <img
+                        className="mr-2 h-8 w-8 rounded-full"
+                        alt={conversations.senders?.data[0]?.name}
+                        src={`https://ui-avatars.com/api/?name=${conversations.senders?.data[0]?.name}&background=0D8ABC&color=fff`}
                       />
                       <div className="flex-1">
                         <div className="font-medium text-gray-800">
@@ -160,7 +165,7 @@ export default function Message({ user }) {
                       />
                       <div className="flex-1">
                         <div className="font-medium text-gray-800">
-                          {post.message.slice(0, 100)}
+                          {post.message?.slice(0, 100)}
                         </div>
                         <div className="text-sm text-gray-500">
                           {dayjs(post.created_time).format(

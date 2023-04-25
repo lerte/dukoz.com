@@ -27,7 +27,7 @@ export default function FacebookPage({ page }) {
             src={
               page.cover?.source
                 ? `/api/proxy?url=${encodeURIComponent(page.cover.source)}`
-                : `https://ui-avatars.com/api/?name=${page?.name}&background=0D8ABC&color=fff`
+                : `/api/meta/picture?userID=${page.id}&accessToken=${page.access_token}`
             }
             alt={page?.name}
           />
@@ -56,9 +56,6 @@ export default function FacebookPage({ page }) {
           </button>
         </div>
         <div className="mt-4 flex space-x-3 md:mt-6">
-          <button className="inline-flex items-center rounded-lg bg-blue-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Feed
-          </button>
           <button className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
             Message {messageCount}
           </button>

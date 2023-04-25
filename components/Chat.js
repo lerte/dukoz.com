@@ -42,11 +42,19 @@ export default function Chat({ currentPage, currentConversation }) {
             >
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full">
-                  <img
-                    alt={message.from.name}
-                    src={`/api/meta/picture?userID=${message.from.id}&accessToken=${currentPage.access_token}`}
-                    className="mr-2 h-8 w-8 rounded-full"
-                  />
+                  {message.from.id == currentPage.id ? (
+                    <img
+                      alt={message.from.name}
+                      src={`/api/meta/picture?userID=${message.from.id}&accessToken=${currentPage.access_token}`}
+                      className="mr-2 h-8 w-8 rounded-full"
+                    />
+                  ) : (
+                    <img
+                      alt={message.from.name}
+                      className="mr-2 h-8 w-8 rounded-full"
+                      src={`https://ui-avatars.com/api/?name=${message.from.name}&background=0D8ABC&color=fff`}
+                    />
+                  )}
                 </div>
               </div>
               <div className="chat-header">{message.from.name}</div>
